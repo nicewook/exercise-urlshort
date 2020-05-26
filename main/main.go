@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	urlshort "github.com/nicewook/exercise-urlshort"
 )
 
 func main() {
@@ -12,14 +14,14 @@ func main() {
 		"/urlshort-godoc": "https://godoc.org/github.com/gophercise/urlshort",
 		"yaml-godoc":      "https://godoc.org/gopkg.in/yaml.v2",
 	}
-	mapHandler := urlshort.MapHandler(pathsToUrls, mux)
+	mapHandler := urlshort.MapHandler(pathToUrls, mux)
 
 	yaml := `
-	- path: /urlshort
-		url: https://github.com/gophercises/urlshort
-	- path: /urlshort-final
-		url: https://github.com/gophercises/urlshort/tree/solution
-	`
+- path: /urlshort
+  url: https://github.com/gophercises/urlshort
+- path: /urlshort-final
+  url: https://github.com/gophercises/urlshort/tree/solution
+`
 
 	yamlHandler, err := urlshort.YAMLHandler([]byte(yaml), mapHandler)
 	if err != nil {
@@ -31,7 +33,7 @@ func main() {
 
 func defaultMux() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandlerFunc("/", hello)
+	mux.HandleFunc("/", hello)
 	return mux
 }
 
